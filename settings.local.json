@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s \"https://raw.githubusercontent.com/Leonxlnx/taste-skill/main/README.md\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/Leonxlnx/taste-skill/refs/heads/main/taste-skill.md\")",
+      "Bash(export PATH=\"/c/Program Files/nodejs:$PATH\")",
+      "Bash(npm --version)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\authe\\Desktop\\Single-Landingpage-Backup"
+    ]
+  }
+}
