@@ -1,0 +1,297 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mobile: make intro video bigger and full width on portrait screens */
+
+@media (max-width: 768px) {
+  .mobile-spacer {
+    height: 165vh !important;
+  }
+
+  .video-scrub-video {
+    height: 72vh !important;
+    max-width: 96% !important;
+    margin: 0 auto !important;
+  }
+
+  .video-scrub-container {
+    padding-top: 4vh !important;
+  }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
+  50% { transform: translateX(-50%) translateY(6px); opacity: 1; }
+}
+
+:root {
+  --font-outfit: 'Outfit', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+  --heading-shadow: 0 2px 10px rgba(0,0,0,0.14), 0 1px 3px rgba(0,0,0,0.08);
+  --fast-stroke: 2.5px #1d1d1f;
+  --fast-color: transparent;
+}
+
+.dark {
+  --heading-shadow: none;
+  --fast-stroke: 0px transparent;
+  --fast-color: #71717a;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  max-width: 2000px;
+  margin: 0 auto;
+}
+
+body {
+  background: #f5f5f7;
+  color: #1d1d1f;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: var(--font-outfit), system-ui, sans-serif;
+}
+
+.dark body {
+  background: #0A0A0B;
+  color: #FAFAFA;
+}
+
+/* Subtle text shadow in light mode for readability */
+html:not(.dark) h1,
+html:not(.dark) h2,
+html:not(.dark) h3 {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.07);
+}
+
+html:not(.dark) .text-gray-900 {
+  color: #1d1d1f;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8FAFB;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #0A0A0B;
+}
+
+::selection {
+  background: rgba(212, 98, 42, 0.3);
+  color: #FAFAFA;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: #0A0A0B;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272A;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3F3F46;
+}
+
+@keyframes float-a {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes float-b {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(8px); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes layer-rise {
+  0% { clip-path: inset(100% 0 0 0); opacity: 0; }
+  100% { clip-path: inset(0% 0 0 0); opacity: 1; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.float-a { animation: float-a 3.2s ease-in-out infinite; }
+.float-b { animation: float-b 3.8s ease-in-out infinite; }
+.float-c { animation: float-a 4.5s ease-in-out infinite 0.8s; }
+
+/* Hero gradient text — light mode only */
+html:not(.dark) .hero-precision {
+  background: linear-gradient(135deg, #0a0a0b 0%, #3a3a3c 60%, #1d1d1f 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: none;
+}
+
+html:not(.dark) .hero-engineered {
+  background: linear-gradient(135deg, #004d40 0%, #00897b 45%, #00f5d1 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: none;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.18)) drop-shadow(0 4px 12px rgba(0,0,0,0.10));
+}
+
+html:not(.dark) .hero-fast {
+  background: linear-gradient(135deg, #1d1d1f 0%, #6e6e73 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-text-stroke: 0px transparent;
+  text-shadow: none;
+  filter: none;
+}
+
+
+
+/* Button shadows in light mode */
+html:not(.dark) a[class*="rounded"],
+html:not(.dark) button[class*="rounded"] {
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10), 0 1px 3px rgba(0,0,0,0.07);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+html:not(.dark) a[class*="rounded"]:hover,
+html:not(.dark) button[class*="rounded"]:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.14), 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* Apple-style glass cards in light mode */
+html:not(.dark) .glass-card {
+  background: rgba(255, 255, 255, 0.72) !important;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-color: rgba(255, 255, 255, 0.55) !important;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06), 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+html:not(.dark) .glass-card:hover {
+  background: rgba(255, 255, 255, 0.85) !important;
+  box-shadow: 0 4px 28px rgba(0, 0, 0, 0.09), 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+/* Apple-style section backgrounds alternate */
+html:not(.dark) section {
+  background-color: #f5f5f7;
+}
+
+/* ── Dynamic background ───────────────────────────────────────────── */
+.dynamic-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -10;
+  overflow: hidden;
+  background: #0A0A0B;
+}
+
+html:not(.dark) .dynamic-bg {
+  background: #f5f5f7;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(90px);
+  will-change: transform;
+}
+
+/* Dark mode orbs */
+.orb-1 {
+  width: 75vw;
+  height: 75vw;
+  top: -20%;
+  left: -10%;
+  background: radial-gradient(circle, rgba(0, 245, 209, 0.14) 0%, transparent 70%);
+}
+.orb-2 {
+  width: 60vw;
+  height: 60vw;
+  bottom: -25%;
+  right: -10%;
+  background: radial-gradient(circle, rgba(0, 137, 123, 0.18) 0%, transparent 70%);
+}
+.orb-3 {
+  width: 50vw;
+  height: 50vw;
+  top: 35%;
+  left: 30%;
+  background: radial-gradient(circle, rgba(0, 77, 64, 0.22) 0%, transparent 70%);
+}
+
+/* Light mode orb overrides — more subtle */
+html:not(.dark) .orb-1 {
+  background: radial-gradient(circle, rgba(0, 245, 209, 0.09) 0%, transparent 70%);
+}
+html:not(.dark) .orb-2 {
+  background: radial-gradient(circle, rgba(0, 137, 123, 0.08) 0%, transparent 70%);
+}
+html:not(.dark) .orb-3 {
+  background: radial-gradient(circle, rgba(0, 77, 64, 0.07) 0%, transparent 70%);
+}
+
+/* Slow autonomous drift animations */
+@keyframes orb-drift-a {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  33%       { transform: translate(40px, -30px) scale(1.04); }
+  66%       { transform: translate(-20px, 20px) scale(0.97); }
+}
+@keyframes orb-drift-b {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  40%       { transform: translate(-50px, 30px) scale(1.05); }
+  70%       { transform: translate(25px, -20px) scale(0.96); }
+}
+@keyframes orb-drift-c {
+  0%, 100% { transform: translate(0px, 0px) scale(1); }
+  50%       { transform: translate(30px, 40px) scale(1.06); }
+}
+
+.orb-drift-a { animation: orb-drift-a 14s ease-in-out infinite; }
+.orb-drift-b { animation: orb-drift-b 18s ease-in-out infinite; }
+.orb-drift-c { animation: orb-drift-c 22s ease-in-out infinite; }
+
+/* ── Fixed bottom blur overlay — blurs content scrolling beneath the viewport edge */
+.bottom-blur-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 132px;
+  pointer-events: none;
+  z-index: 45;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 100%);
+}
+
+/* Mobile: disable bottom blur overlay and hex grid side effects */
+@media (max-width: 768px) {
+  .bottom-blur-overlay {
+    display: none;
+  }
+}
+
+.noise-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
