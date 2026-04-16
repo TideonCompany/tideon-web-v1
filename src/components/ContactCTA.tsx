@@ -67,7 +67,7 @@ export default function ContactCTA() {
               className="flex flex-col gap-5"
             >
               {[
-                { label: 'Email', value: 'Orders@tideon.co' },
+                { label: 'Email', value: 'Orders@Tideon.co' },
                 { label: 'Phone', value: '+1 (616) 816-3321' },
                 { label: 'Hours', value: 'Mon–Fri, 7am–7pm' },
                 { label: 'Address', value: '5685 Comstock Park NW Dr' },
