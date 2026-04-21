@@ -27,11 +27,11 @@ export default function VideoIntro() {
       video.style.setProperty('transform-origin', 'center center','important')
 
       container.style.paddingTop     = '3vh'
+      container.style.paddingBottom  = '40vh'
       videoWrap.style.alignItems     = 'center'
       videoWrap.style.justifyContent = 'center'
       videoWrap.style.marginTop      = '0px'
       videoWrap.style.paddingTop     = '0px'
-      videoWrap.style.paddingBottom  = '30vh'
     }
   }, [])
 
