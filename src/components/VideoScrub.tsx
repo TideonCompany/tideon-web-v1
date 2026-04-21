@@ -48,9 +48,6 @@ export default function VideoIntro() {
     let displayTime = 0
     let lastTs      = 0
 
-    // Detect requestVideoFrameCallback support (Chrome 83+, Edge)
-    const hasRVFC = 'requestVideoFrameCallback' in video
-
     const onReady = () => {
       video.currentTime = 0
       displayTime = 0
@@ -62,25 +59,7 @@ export default function VideoIntro() {
         video.play().catch(() => {})
       }
 
-      if (hasRVFC && !isMobile) {
-        // Desktop Chrome/Edge: use rVFC for perfect frame-sync — fires exactly when
-        // a new frame is rendered, eliminating the RAF→decode→display latency chain
-        const rVFCLoop = () => {
-          if (!ready) return
-          const scrollY = window.scrollY
-          const vh = window.innerHeight
-          el.style.opacity = String(Math.max(0, 1 - scrollY / (vh * 1.08)))
-          if (video.duration) {
-            const targetTime = Math.min(1, scrollY / (vh * 1.2)) * video.duration
-            displayTime += (targetTime - displayTime) * 0.12
-            try { video.currentTime = displayTime } catch (_) {}
-          }
-          ;(video as any).requestVideoFrameCallback(rVFCLoop)
-        }
-        ;(video as any).requestVideoFrameCallback(rVFCLoop)
-      } else {
-        rafId = requestAnimationFrame(tick)
-      }
+      rafId = requestAnimationFrame(tick)
     }
 
     if (isIOS) video.load()
@@ -111,14 +90,13 @@ export default function VideoIntro() {
           }
 
         } else if (isIOS) {
-          // iOS Safari: lerp + direct currentTime — most reliable on WebKit
+          // iOS Safari: lerp + direct currentTime
           const factor = 1 - Math.exp(-delta / 55)
           displayTime += (targetTime - displayTime) * factor
           try { video.currentTime = displayTime } catch (_) {}
 
         } else {
-          // Desktop fallback (Firefox/Safari): smooth lerp, video stays paused
-          // No play/pause calls = no decode pipeline restarts = no jank
+          // Desktop: smooth lerp, video stays paused — no play/pause jank
           const factor = 1 - Math.exp(-delta / 45)
           displayTime += (targetTime - displayTime) * factor
           try { video.currentTime = displayTime } catch (_) {}
