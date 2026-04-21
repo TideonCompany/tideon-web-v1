@@ -9,7 +9,7 @@ const logos = [
   { name: 'Service Plus Heating & Cooling', file: '/logos/6983aab2f2141b43d1bd7da4_service-plus-logo.png', desc: 'Mechanical Systems', scale: 1 },
   { name: 'Peak Illinois Heating & Cooling', file: '/logos/PEAK-CHICAGO.png', desc: 'HVAC Services', scale: 2.25 },
   { name: 'Peak Heating, Cooling & Electrical', file: '/logos/PEAK-LOGO.png', desc: 'Multi-Trade Services', scale: 1.0 },
-  { name: 'Harbor Lane', file: '/logos/harbor-lane-logo.png', desc: 'Tech Accessories', scale: 1.0 },
+  { name: 'Harbor Lane', file: '/logos/harbor-lane-logo.png', desc: 'Tech Accessories', scale: 2.2 },
 ]
 
 const looped = logos
