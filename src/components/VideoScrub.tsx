@@ -31,6 +31,7 @@ export default function VideoIntro() {
       videoWrap.style.justifyContent = 'center'
       videoWrap.style.marginTop      = '0px'
       videoWrap.style.paddingTop     = '0px'
+      videoWrap.style.paddingBottom  = '30vh'
     }
   }, [])
 
