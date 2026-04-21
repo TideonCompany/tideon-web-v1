@@ -10,7 +10,7 @@ const logos = [
   { name: 'Peak Illinois Heating & Cooling', file: '/logos/PEAK-CHICAGO.png', desc: 'HVAC Services', scale: 2.25 },
   { name: 'Peak Heating & Electrical', file: '/logos/PEAK-LOGO.png', desc: 'Multi-Trade Services', scale: 1.0 },
   { name: 'Harbor Lane', file: '/logos/harbor-lane-logo.png', desc: 'Tech Accessories', scale: 1.4 },
-  { name: 'Northline Works', file: '/logos/Northline-Logo.png', desc: 'Precision Tooling', scale: 1.0 },
+  { name: 'Northline Works', file: '/logos/Northline-Logo.png', desc: 'Precision Tooling', scale: 1.3, innerW: 160, innerH: 100 },
 ]
 
 const looped = logos
@@ -20,7 +20,7 @@ function TiltCard({
   onClick,
   expanded,
 }: {
-  logo: (typeof logos)[number]
+  logo: (typeof logos)[number] & { innerW?: number; innerH?: number }
   onClick: () => void
   expanded: boolean
 }) {
@@ -76,7 +76,7 @@ function TiltCard({
           style={{ transform: 'translateZ(20px)', height: '130px' }}
         >
           <div style={{ width: '210px', height: '130px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <div style={{ position: 'relative', width: '210px', height: '130px', transform: `scale(${logo.scale})`, transformOrigin: 'center center', flexShrink: 0 }}>
+            <div style={{ position: 'relative', width: `${logo.innerW ?? 210}px`, height: `${logo.innerH ?? 130}px`, transform: `scale(${logo.scale})`, transformOrigin: 'center center', flexShrink: 0 }}>
               <Image
                 src={logo.file}
                 alt={logo.name}
