@@ -26,7 +26,7 @@ export default function Home() {
       {/* Site content scrolls over the video */}
       <main className="relative overflow-x-hidden max-w-[2000px] mx-auto" style={{ zIndex: 1 }}>
         {/* Spacer — extra tall on mobile so video plays out fully */}
-        <div className="bg-transparent mobile-spacer" style={{ height: '162vh' }} />
+        <div className="bg-transparent mobile-spacer" style={{ height: '154vh' }} />
 
         {/* Rest of site has its own background */}
         <div className="bg-[#0A0A0B]">
