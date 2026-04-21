@@ -87,7 +87,15 @@ export default function VideoIntro() {
         const factor = 1 - Math.exp(-delta / tau)
         displayTime  += (targetTime - displayTime) * factor
         if (!isIOS) video.playbackRate = 0     // keep frozen — we own the position
-        try { video.currentTime = displayTime } catch (_) {}
+        if (!video.seeking) {
+          try {
+            if (typeof (video as any).fastSeek === 'function') {
+              (video as any).fastSeek(displayTime)
+            } else {
+              video.currentTime = displayTime
+            }
+          } catch (_) {}
+        }
       }
 
       rafId = requestAnimationFrame(tick)
