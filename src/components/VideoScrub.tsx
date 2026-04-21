@@ -25,6 +25,7 @@ export default function VideoIntro() {
       video.style.setProperty('max-width',        'none',         'important')
       video.style.setProperty('transform',        'scale(1.3)',   'important')
       video.style.setProperty('transform-origin', 'center center','important')
+      video.style.setProperty('margin-left',      '5vw',          'important')
 
       container.style.paddingTop     = '3vh'
       container.style.paddingBottom  = '40vh'
