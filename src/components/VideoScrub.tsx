@@ -80,34 +80,14 @@ export default function VideoIntro() {
         const targetProgress = Math.min(1, scrollY / (vh * 1.44))
         const targetTime     = targetProgress * video.duration
 
-        if (isIOS) {
-          // iOS Safari: lerp + currentTime handles both directions smoothly
-          const factor = 1 - Math.exp(-delta / 70)
-          displayTime += (targetTime - displayTime) * factor
-          try { video.currentTime = displayTime } catch (_) {}
-
-        } else {
-          const diff = targetTime - video.currentTime
-
-          if (diff > 0.015) {
-            // Forward scroll: playbackRate — GPU pipeline stays warm, no seek overhead
-            video.playbackRate = Math.min(6, Math.max(0.3, diff * 14))
-            displayTime = video.currentTime // keep displayTime in sync for when we reverse
-
-          } else if (diff < -0.015) {
-            // Backward scroll: playbackRate can't go negative, use lerp + seek instead
-            // Lerp gives smooth interpolation frame-by-frame without jarring jumps
-            video.playbackRate = 0
-            const factor = 1 - Math.exp(-delta / 55)
-            displayTime += (targetTime - displayTime) * factor
-            try { video.currentTime = displayTime } catch (_) {}
-
-          } else {
-            // Dead zone — in sync, freeze
-            video.playbackRate = 0
-            displayTime = video.currentTime
-          }
-        }
+        // Universal spring lerp — identical logic for ALL directions and ALL browsers
+        // Video stays at playbackRate=0 (GPU warm), we drive currentTime manually
+        // No direction switching = no artifacts when reversing scroll
+        const tau   = isIOS ? 62 : 32          // iOS WebKit needs slower lerp; desktop snappier
+        const factor = 1 - Math.exp(-delta / tau)
+        displayTime  += (targetTime - displayTime) * factor
+        if (!isIOS) video.playbackRate = 0     // keep frozen — we own the position
+        try { video.currentTime = displayTime } catch (_) {}
       }
 
       rafId = requestAnimationFrame(tick)
