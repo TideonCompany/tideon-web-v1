@@ -48,17 +48,39 @@ export default function VideoIntro() {
     let displayTime = 0
     let lastTs      = 0
 
+    // Detect requestVideoFrameCallback support (Chrome 83+, Edge)
+    const hasRVFC = 'requestVideoFrameCallback' in video
+
     const onReady = () => {
       video.currentTime = 0
       displayTime = 0
       ready = true
 
-      // All platforms: keep video playing at rate 0 — GPU decode pipeline stays warm,
-      // no play/pause jank. Rate adjustments are instant with no pipeline restarts.
-      video.playbackRate = 0
-      video.play().catch(() => {})
+      if (isAndroid) {
+        // Android: keep playing at rate 0 — GPU pipeline stays warm, seeks are expensive
+        video.playbackRate = 0
+        video.play().catch(() => {})
+      }
 
-      rafId = requestAnimationFrame(tick)
+      if (hasRVFC && !isMobile) {
+        // Desktop Chrome/Edge: use rVFC for perfect frame-sync — fires exactly when
+        // a new frame is rendered, eliminating the RAF→decode→display latency chain
+        const rVFCLoop = () => {
+          if (!ready) return
+          const scrollY = window.scrollY
+          const vh = window.innerHeight
+          el.style.opacity = String(Math.max(0, 1 - scrollY / (vh * 1.08)))
+          if (video.duration) {
+            const targetTime = Math.min(1, scrollY / (vh * 1.2)) * video.duration
+            displayTime += (targetTime - displayTime) * 0.12
+            try { video.currentTime = displayTime } catch (_) {}
+          }
+          ;(video as any).requestVideoFrameCallback(rVFCLoop)
+        }
+        ;(video as any).requestVideoFrameCallback(rVFCLoop)
+      } else {
+        rafId = requestAnimationFrame(tick)
+      }
     }
 
     if (isIOS) video.load()
@@ -76,26 +98,30 @@ export default function VideoIntro() {
         const targetProgress = Math.min(1, scrollY / (vh * 1.2))
         const targetTime     = targetProgress * video.duration
 
-        if (isIOS) {
-          // iOS Safari: direct currentTime with lerp — playbackRate unreliable on WebKit
-          const factor = 1 - Math.exp(-delta / 60)
+        if (isAndroid) {
+          // Android: playbackRate only — seeking is expensive, keep pipeline hot
+          const diff = targetTime - video.currentTime
+          if (diff > 0.015) {
+            video.playbackRate = Math.min(4, Math.max(0.5, diff * 16))
+          } else if (diff < -0.04) {
+            video.playbackRate = 0
+            try { video.currentTime = targetTime } catch (_) {}
+          } else {
+            video.playbackRate = 0
+          }
+
+        } else if (isIOS) {
+          // iOS Safari: lerp + direct currentTime — most reliable on WebKit
+          const factor = 1 - Math.exp(-delta / 55)
           displayTime += (targetTime - displayTime) * factor
           try { video.currentTime = displayTime } catch (_) {}
 
         } else {
-          // Desktop + Android: playbackRate only — never pause, never seek unless backward
-          const diff = targetTime - video.currentTime
-          if (diff > 0.012) {
-            // Forward: ramp rate proportionally, cap at 8x for fast scrolls
-            video.playbackRate = Math.min(8, Math.max(0.25, diff * 20))
-          } else if (diff < -0.04) {
-            // Backward: only case where we must seek
-            video.playbackRate = 0
-            try { video.currentTime = targetTime } catch (_) {}
-          } else {
-            // In sync — freeze
-            video.playbackRate = 0
-          }
+          // Desktop fallback (Firefox/Safari): smooth lerp, video stays paused
+          // No play/pause calls = no decode pipeline restarts = no jank
+          const factor = 1 - Math.exp(-delta / 45)
+          displayTime += (targetTime - displayTime) * factor
+          try { video.currentTime = displayTime } catch (_) {}
         }
       }
 
