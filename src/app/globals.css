@@ -4,19 +4,21 @@
 
 /* Mobile: make intro video bigger and full width on portrait screens */
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .mobile-spacer {
     height: 180vh !important;
   }
 
   .video-scrub-video {
-    height: 72vh !important;
-    max-width: 96% !important;
-    margin: 0 auto !important;
+    width: 100vw !important;
+    height: auto !important;
+    max-width: none !important;
+    transform: scale(1.2) !important;
+    transform-origin: center center !important;
   }
 
   .video-scrub-container {
-    padding-top: 4vh !important;
+    padding-top: 3vh !important;
   }
 }
 

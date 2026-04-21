@@ -20,17 +20,11 @@ export default function VideoIntro() {
       window.innerWidth <= 1024
 
     if (isMobile) {
-      video.style.width           = '100vw'
-      video.style.height          = 'auto'
-      video.style.maxWidth        = 'none'
-      video.style.transform       = 'scale(1.2)'
-      video.style.transformOrigin = 'center center'
-
-      container.style.paddingTop  = '3vh'
-      videoWrap.style.alignItems  = 'center'
+      container.style.paddingTop     = '3vh'
+      videoWrap.style.alignItems     = 'center'
       videoWrap.style.justifyContent = 'center'
-      videoWrap.style.marginTop   = '0px'
-      videoWrap.style.paddingTop  = '0px'
+      videoWrap.style.marginTop      = '0px'
+      videoWrap.style.paddingTop     = '0px'
     }
   }, [])
 
@@ -196,6 +190,7 @@ export default function VideoIntro() {
           muted
           playsInline
           preload="auto"
+          className="video-scrub-video"
           style={{
             height: 'clamp(300px, 62vh, 700px)',
             width: 'auto',
