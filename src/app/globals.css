@@ -6,7 +6,7 @@
 
 @media (max-width: 768px) {
   .mobile-spacer {
-    height: 200vh !important;
+    height: 180vh !important;
   }
 
   .video-scrub-video {
