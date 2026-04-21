@@ -10,7 +10,7 @@ const logos = [
   { name: 'Peak Illinois Heating & Cooling', file: '/logos/PEAK-CHICAGO.png', desc: 'HVAC Services', scale: 2.25 },
   { name: 'Peak Heating & Electrical', file: '/logos/PEAK-LOGO.png', desc: 'Multi-Trade Services', scale: 1.0 },
   { name: 'Harbor Lane', file: '/logos/harbor-lane-logo.png', desc: 'Tech Accessories', scale: 1.4 },
-  { name: 'Northline Works', file: '/logos/Northline-Logo.png', desc: 'Precision Tooling', scale: 1.6 },
+  { name: 'Northline Works', file: '/logos/Northline-Logo.png', desc: 'Precision Tooling', scale: 1.15 },
 ]
 
 const looped = logos
