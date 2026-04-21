@@ -20,15 +20,15 @@ export default function VideoIntro() {
       window.innerWidth <= 1024
 
     if (isMobile) {
-      // Size: fill full screen WIDTH so portrait phones get maximum size
-      // (height-only sizing fails when video is landscape-format)
-      video.style.width    = '100vw'
-      video.style.height   = 'auto'
-      video.style.maxWidth = 'none'
+      video.style.width           = '100vw'
+      video.style.height          = 'auto'
+      video.style.maxWidth        = 'none'
+      video.style.transform       = 'scale(1.2)'
+      video.style.transformOrigin = 'center center'
 
-      // Position: small top padding, center video in remaining space
       container.style.paddingTop  = '3vh'
       videoWrap.style.alignItems  = 'center'
+      videoWrap.style.justifyContent = 'center'
       videoWrap.style.marginTop   = '0px'
       videoWrap.style.paddingTop  = '0px'
     }
@@ -220,7 +220,7 @@ export default function VideoIntro() {
         className="select-none"
         style={{
           position: 'absolute',
-          bottom: '5vh',
+          bottom: 'calc(8vh + env(safe-area-inset-bottom, 0px))',
           left: '50%',
           transform: 'translateX(-50%)',
           display: 'flex',
