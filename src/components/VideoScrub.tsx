@@ -49,13 +49,14 @@ export default function VideoIntro() {
     let lastTs      = 0
 
     const onReady = () => {
+      if (ready) return
       video.currentTime = 0
       displayTime = 0
       ready = true
 
-      if (isAndroid) {
-        // Android: start playing immediately at rate 0 — keeps GPU decode pipeline warm
-        // Rate changes are instant; no play/pause calls = no jank
+      // All platforms except iOS: keep playing at rate 0 — GPU pipeline stays warm,
+      // no play/pause = no decode restarts = butter smooth
+      if (!isIOS) {
         video.playbackRate = 0
         video.play().catch(() => {})
       }
@@ -63,8 +64,8 @@ export default function VideoIntro() {
       rafId = requestAnimationFrame(tick)
     }
 
+    // iOS needs explicit load trigger
     if (isIOS) video.load()
-    else video.pause()
 
     const tick = (ts: number) => {
       const delta = lastTs ? Math.min(ts - lastTs, 50) : 8
@@ -76,46 +77,26 @@ export default function VideoIntro() {
       el.style.opacity = String(Math.max(0, 1 - scrollY / (vh * 1.08)))
 
       if (ready && video.duration) {
-        const targetProgress = Math.min(1, scrollY / (vh * 1.2))
+        const targetProgress = Math.min(1, scrollY / (vh * 1.44))
         const targetTime     = targetProgress * video.duration
 
-        if (isAndroid) {
-          // Android Chrome 120hz: playbackRate only — video always playing, rate=0 to freeze.
-          // Native GPU decode pipeline, no seeking overhead for forward scroll.
-          const diff = targetTime - video.currentTime
-          if (diff > 0.015) {
-            video.playbackRate = Math.min(4, Math.max(0.5, diff * 16))
-          } else if (diff < -0.04) {
-            // Backward scroll: seek then resume at rate 0
-            video.playbackRate = 0
-            try { video.currentTime = targetTime } catch (_) {}
-          } else {
-            video.playbackRate = 0
-          }
-
-        } else if (isIOS) {
-          // iOS Safari (60hz WebKit): smooth lerp + direct currentTime
-          const factor = 1 - Math.exp(-delta / 80)
+        if (isIOS) {
+          // iOS Safari: lerp + currentTime — playbackRate unreliable on WebKit
+          const factor = 1 - Math.exp(-delta / 70)
           displayTime += (targetTime - displayTime) * factor
           try { video.currentTime = displayTime } catch (_) {}
 
         } else {
-          // Desktop: hybrid seek + playbackRate
+          // Desktop + Android: playbackRate only, video always playing
+          // No play/pause calls = no pipeline restarts = smooth on all browsers
           const diff = targetTime - video.currentTime
-          if (Math.abs(diff) < 0.018) {
-            if (!video.paused) video.pause()
-          } else if (Math.abs(diff) > 0.35) {
-            video.pause()
+          if (diff > 0.012) {
+            video.playbackRate = Math.min(6, Math.max(0.3, diff * 14))
+          } else if (diff < -0.05) {
+            video.playbackRate = 0
             try { video.currentTime = targetTime } catch (_) {}
           } else {
-            const rate = Math.min(4, Math.max(0.1, Math.abs(diff) * 10))
-            video.playbackRate = rate
-            if (diff > 0) {
-              if (video.paused) video.play().catch(() => {})
-            } else {
-              video.pause()
-              try { video.currentTime = targetTime } catch (_) {}
-            }
+            video.playbackRate = 0
           }
         }
       }
@@ -125,16 +106,21 @@ export default function VideoIntro() {
 
     video.preload = 'auto'
 
-    if (video.readyState >= 4) {
+    // Start RAF immediately — opacity fades on scroll even before video is ready
+    rafId = requestAnimationFrame(tick)
+
+    // Fire onReady as early as possible — canplay fires well before canplaythrough
+    if (video.readyState >= 2) {
       onReady()
     } else {
-      video.addEventListener('canplaythrough', onReady, { once: true })
-      setTimeout(() => { if (!ready && video.readyState >= 1) onReady() }, 2000)
+      video.addEventListener('canplay', onReady, { once: true })
+      video.addEventListener('loadeddata', onReady, { once: true })
+      setTimeout(() => { if (!ready) onReady() }, 500)
     }
 
     return () => {
       cancelAnimationFrame(rafId)
-      if (!isIOS) video.pause()
+      video.pause()
     }
   }, [])
 
