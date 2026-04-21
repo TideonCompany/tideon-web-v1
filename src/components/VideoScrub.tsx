@@ -20,6 +20,12 @@ export default function VideoIntro() {
       window.innerWidth <= 1024
 
     if (isMobile) {
+      video.style.setProperty('width',            '100vw',                        'important')
+      video.style.setProperty('height',           'auto',                         'important')
+      video.style.setProperty('max-width',        'none',                         'important')
+      video.style.setProperty('transform',        'scale(1.3) translateY(-10%)',  'important')
+      video.style.setProperty('transform-origin', 'center center',                'important')
+
       container.style.paddingTop     = '3vh'
       videoWrap.style.alignItems     = 'center'
       videoWrap.style.justifyContent = 'center'
