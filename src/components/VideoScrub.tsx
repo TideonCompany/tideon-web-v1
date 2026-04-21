@@ -49,12 +49,12 @@ export default function VideoIntro() {
     let lastTs      = 0
 
     const onReady = () => {
+      if (ready) return
       video.currentTime = 0
       displayTime = 0
       ready = true
 
       if (isAndroid) {
-        // Android: keep playing at rate 0 — GPU pipeline stays warm, seeks are expensive
         video.playbackRate = 0
         video.play().catch(() => {})
       }
@@ -78,7 +78,6 @@ export default function VideoIntro() {
         const targetTime     = targetProgress * video.duration
 
         if (isAndroid) {
-          // Android: playbackRate only — seeking is expensive, keep pipeline hot
           const diff = targetTime - video.currentTime
           if (diff > 0.015) {
             video.playbackRate = Math.min(4, Math.max(0.5, diff * 16))
@@ -90,15 +89,21 @@ export default function VideoIntro() {
           }
 
         } else if (isIOS) {
-          // iOS Safari: lerp + direct currentTime
-          const factor = 1 - Math.exp(-delta / 55)
+          // iOS: lerp to handle WebKit seek throttling
+          const factor = 1 - Math.exp(-delta / 40)
           displayTime += (targetTime - displayTime) * factor
           try { video.currentTime = displayTime } catch (_) {}
 
         } else {
-          // Desktop: smooth lerp, video stays paused — no play/pause jank
-          const factor = 1 - Math.exp(-delta / 45)
-          displayTime += (targetTime - displayTime) * factor
+          // Desktop Chrome/Edge/Safari/Firefox:
+          // Large jump = seek directly (no lerp lag on fast scroll)
+          // Small diff = lerp for smoothness
+          const diff = targetTime - displayTime
+          if (Math.abs(diff) > 0.3) {
+            displayTime = targetTime
+          } else {
+            displayTime += diff * 0.5
+          }
           try { video.currentTime = displayTime } catch (_) {}
         }
       }
@@ -108,11 +113,13 @@ export default function VideoIntro() {
 
     video.preload = 'auto'
 
-    if (video.readyState >= 4) {
+    // Start as soon as metadata + first frame available — don't wait for full buffer
+    if (video.readyState >= 2) {
       onReady()
     } else {
-      video.addEventListener('canplaythrough', onReady, { once: true })
-      setTimeout(() => { if (!ready && video.readyState >= 1) onReady() }, 2000)
+      video.addEventListener('loadeddata', onReady, { once: true })
+      video.addEventListener('canplay', onReady, { once: true })
+      setTimeout(() => { if (!ready) onReady() }, 400)
     }
 
     return () => {
