@@ -20,17 +20,18 @@ export default function VideoIntro() {
       window.innerWidth <= 1024
 
     if (isMobile) {
-      video.style.setProperty('width',            '100vw',                        'important')
-      video.style.setProperty('height',           'auto',                         'important')
-      video.style.setProperty('max-width',        'none',                         'important')
-      video.style.setProperty('transform',        'scale(1.3) translateY(-25%)',  'important')
-      video.style.setProperty('transform-origin', 'center center',                'important')
+      video.style.setProperty('width',    '100vw', 'important')
+      video.style.setProperty('height',   'auto',  'important')
+      video.style.setProperty('max-width','none',  'important')
+      video.style.setProperty('transform','scale(1.3)', 'important')
+      video.style.setProperty('transform-origin', 'center center', 'important')
 
-      container.style.paddingTop     = '3vh'
-      videoWrap.style.alignItems     = 'center'
+      container.style.paddingTop     = '2vh'
+      videoWrap.style.alignItems     = 'flex-start'
       videoWrap.style.justifyContent = 'center'
+      videoWrap.style.paddingTop     = '2vh'
       videoWrap.style.marginTop      = '0px'
-      videoWrap.style.paddingTop     = '0px'
+      videoWrap.style.overflow       = 'visible'
     }
   }, [])
 
