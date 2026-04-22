@@ -26,7 +26,7 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://islamic-front-routers-accomplish.trycloudflare.com'),
+  metadataBase: new URL('https://tideon.co'),
   title: 'Tideon — Industrial 3D Manufacturing',
   description:
     'Precision industrial 3D printing for aerospace, medical, and engineering applications. Sub-0.1mm accuracy, 47+ material grades, ISO 9001:2015 certified.',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     description: 'Precision industrial 3D printing for aerospace, medical, and engineering applications.',
     images: [
       {
-        url: 'https://islamic-front-routers-accomplish.trycloudflare.com/tideon-logo.png',
+        url: '/og-image.png',
         width: 1200,
         height: 630,
         alt: 'Tideon Industrial 3D Manufacturing',
@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Tideon — Industrial 3D Manufacturing',
     description: 'Precision industrial 3D printing for aerospace, medical, and engineering applications.',
-    images: ['https://islamic-front-routers-accomplish.trycloudflare.com/tideon-logo.png'],
+    images: ['/og-image.png'],
   },
 }
 
