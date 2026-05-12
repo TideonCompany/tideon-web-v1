@@ -1,14 +1,65 @@
 'use client'
 
-// TODO: Add authentication before deploying to production.
-// This page should be protected — e.g. next-auth, Clerk, or a simple secret-header check.
-
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import {
-  Plus, FloppyDisk, ArrowLeft, Spinner, ArrowsClockwise,
+  Plus, FloppyDisk, ArrowLeft, Spinner, ArrowsClockwise, Lock,
 } from '@phosphor-icons/react'
 import type { OrderRecord, Stage } from '@/types/order'
+
+const ADMIN_CODE = 'Tideon-RR1004C'
+
+function PasscodeGate({ onUnlock }: { onUnlock: () => void }) {
+  const [input, setInput] = useState('')
+  const [error, setError] = useState(false)
+
+  function attempt(e: React.FormEvent) {
+    e.preventDefault()
+    if (input === ADMIN_CODE) {
+      onUnlock()
+    } else {
+      setError(true)
+      setInput('')
+    }
+  }
+
+  return (
+    <div className="min-h-screen bg-zinc-50 flex items-center justify-center px-4">
+      <div className="bg-white border border-zinc-200 rounded-[20px] p-8 w-full max-w-sm shadow-sm">
+        <div className="flex flex-col items-center gap-4 mb-6">
+          <div className="w-11 h-11 rounded-xl bg-[#00897b]/10 flex items-center justify-center">
+            <Lock size={20} weight="duotone" className="text-[#00897b]" />
+          </div>
+          <div className="text-center">
+            <div className="font-black text-[#1d1d1f] text-lg" style={{ fontFamily: 'var(--font-outfit)' }}>
+              TIDEON Admin
+            </div>
+            <div className="text-zinc-400 text-[13px] mt-1">Enter your access code to continue</div>
+          </div>
+        </div>
+        <form onSubmit={attempt} className="flex flex-col gap-3">
+          <input
+            type="password"
+            value={input}
+            onChange={(e) => { setInput(e.target.value); setError(false) }}
+            placeholder="Access code"
+            autoFocus
+            className={`w-full border rounded-xl px-4 py-3 text-[14px] font-mono focus:outline-none transition-colors ${
+              error ? 'border-red-300 bg-red-50' : 'border-zinc-200 bg-zinc-50 focus:border-[#00897b]'
+            }`}
+          />
+          {error && <p className="text-red-500 text-[12px]">Incorrect code. Try again.</p>}
+          <button
+            type="submit"
+            className="bg-[#00897b] hover:bg-[#007a6e] text-white font-semibold text-[14px] py-3 rounded-xl transition-colors"
+          >
+            Unlock
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
 
 const STAGES: { value: Stage; label: string }[] = [
   { value: 'ordered',          label: 'Ordered' },
@@ -47,6 +98,7 @@ const EMPTY_FORM: Omit<OrderRecord, 'id' | 'lastUpdated'> = {
 }
 
 export default function AdminOrderProgress() {
+  const [unlocked, setUnlocked] = useState(false)
   const [orders, setOrders] = useState<OrderRecord[]>([])
   const [selected, setSelected] = useState<OrderRecord | null>(null)
   const [isNew, setIsNew] = useState(false)
@@ -147,6 +199,8 @@ export default function AdminOrderProgress() {
   }
 
   const hasForm = isNew || selected !== null
+
+  if (!unlocked) return <PasscodeGate onUnlock={() => setUnlocked(true)} />
 
   return (
     <div className="min-h-screen bg-zinc-50 flex flex-col">
