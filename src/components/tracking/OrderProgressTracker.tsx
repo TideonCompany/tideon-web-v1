@@ -64,17 +64,16 @@ export default function OrderProgressTracker({ order }: { order: PublicOrderReco
   return (
     <div className="bg-white border border-zinc-200 rounded-[24px] shadow-sm overflow-hidden">
 
-      {/* Top: media + details */}
-      <div className="grid grid-cols-1 md:grid-cols-[260px_1fr]">
+      {/* ── Top two-column: media + details ── */}
+      <div className="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-0">
 
-        {/* Media */}
+        {/* Media panel */}
         <div className="p-5 border-b md:border-b-0 md:border-r border-zinc-100">
           <OrderMediaPanel assetUrl={order.extruderAssetUrl} />
         </div>
 
-        {/* Details */}
+        {/* Order details */}
         <div className="p-6 md:p-8">
-
           <div className="text-zinc-400 text-[11px] font-semibold uppercase tracking-wider mb-1">
             Order for
           </div>
@@ -126,16 +125,18 @@ export default function OrderProgressTracker({ order }: { order: PublicOrderReco
               {STAGE_LABELS[order.currentStage]}
             </span>
           </div>
-          <p className="text-zinc-500 text-[13px] leading-relaxed mb-7">
+          <p className="text-zinc-500 text-[13px] leading-relaxed">
             {STAGE_DESCRIPTIONS[order.currentStage]}
           </p>
-
-          {/* Progress bar */}
-          <OrderStageBar currentStage={order.currentStage} stageDates={order.stageDates} />
         </div>
       </div>
 
-      {/* Customer note */}
+      {/* ── Full-width progress tracker ── */}
+      <div className="border-t border-zinc-100 px-6 md:px-10 py-8">
+        <OrderStageBar currentStage={order.currentStage} stageDates={order.stageDates} />
+      </div>
+
+      {/* ── Customer note + last updated ── */}
       {order.customerNote && (
         <div className="border-t border-zinc-100 px-6 md:px-8 py-5 grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-4 items-start">
           <div className="flex items-start gap-3">
