@@ -4,8 +4,8 @@ import type { OrderRecord, Stage } from '@/types/order'
 const SEED: OrderRecord[] = [
   {
     id: 'order_1',
-    customerName: 'Peak Innovations',
-    companyName: 'Peak Innovations',
+    customerName: 'RR Mech LLC',
+    companyName: 'RR Mech LLC',
     orderCode: 'TIDEON-RR1004C',
     currentStage: 'design',
     orderDate: '2025-05-08',
