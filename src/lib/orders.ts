@@ -6,7 +6,7 @@ const SEED: OrderRecord[] = [
     id: 'order_1',
     customerName: 'Peak Innovations',
     companyName: 'Peak Innovations',
-    orderCode: 'TIDEON-PEAK-1024',
+    orderCode: 'TIDEON-RR1004C',
     currentStage: 'design',
     orderDate: '2025-05-08',
     estimatedCompletionDate: '2025-05-11',
