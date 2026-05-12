@@ -28,9 +28,10 @@ const STAGE_DESCRIPTIONS: Record<string, string> = {
 }
 
 function fmtDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', {
-    month: 'long', day: 'numeric', year: 'numeric',
-  })
+  const d = new Date(iso)
+  const base = d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+  const isEndOfDay = d.getHours() === 23 && d.getMinutes() === 59
+  return isEndOfDay ? `${base} · End of Day` : base
 }
 
 function fmtDateTime(iso: string) {

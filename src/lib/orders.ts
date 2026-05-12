@@ -9,7 +9,7 @@ const SEED: OrderRecord[] = [
     orderCode: 'TIDEON-RR1004C',
     currentStage: 'pre-production',
     orderDate: '2025-05-08',
-    estimatedCompletionDate: '2025-05-14',
+    estimatedCompletionDate: '2025-05-14T23:59:00',
     localDelivery: true,
     customerNote:
       'Your mockup is ready for review. Please check the design details and confirm approval so we can move into full production.',
