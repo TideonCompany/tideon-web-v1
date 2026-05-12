@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:3000)",
+      "Bash(powershell.exe -Command \"Start-Process -FilePath 'C:\\\\Users\\\\authe\\\\Downloads\\\\cloudflared.exe' -ArgumentList 'tunnel --url http://localhost:3000' -RedirectStandardOutput 'C:\\\\Users\\\\authe\\\\Downloads\\\\tunnel_out.txt' -RedirectStandardError 'C:\\\\Users\\\\authe\\\\Downloads\\\\tunnel_err.txt' -NoNewWindow\")",
+      "Bash(powershell.exe -Command \"Get-Content 'C:\\\\Users\\\\authe\\\\Downloads\\\\tunnel_err.txt'\")",
+      "Read(//tmp/**)",
+      "WebFetch(domain:www.porkbun.com)",
+      "WebFetch(domain:www.namecheap.com)",
+      "WebFetch(domain:allaboutcookies.org)",
+      "WebSearch",
+      "WebFetch(domain:domainoffer.net)",
+      "WebFetch(domain:porkbun.com)",
+      "WebFetch(domain:tldspy.com)",
+      "WebFetch(domain:www.namesilo.com)",
+      "WebFetch(domain:whatsquare.space)"
+    ]
+  }
+}
