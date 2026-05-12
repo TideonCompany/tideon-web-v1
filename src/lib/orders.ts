@@ -13,7 +13,7 @@ const SEED: OrderRecord[] = [
     localDelivery: true,
     customerNote:
       'Our design team is currently reviewing your requirements and specifications. Pre-production is estimated to be complete by May 11.',
-    lastUpdated: new Date().toISOString(),
+    lastUpdated: '2025-05-08T09:00:00',
     stageDates: {
       ordered: { start: '2025-05-08' },
       design: { start: '2025-05-08', end: '2025-05-11' },
@@ -22,19 +22,13 @@ const SEED: OrderRecord[] = [
   },
 ]
 
-// ─── In-memory singleton ───────────────────────────────────────────────────────
-// Works in Next.js dev (persists across HMR). In Vercel serverless, resets per
-// cold start. Replace getStore() body with real DB calls for production.
-declare global {
-  // eslint-disable-next-line no-var
-  var __tideonOrders: OrderRecord[] | undefined
-}
+// ─── Store ─────────────────────────────────────────────────────────────────────
+// Simple module-level store. Resets on each serverless cold start.
+// Replace with real DB calls (Supabase, Prisma, etc.) for production persistence.
+let _store: OrderRecord[] = JSON.parse(JSON.stringify(SEED))
 
 function getStore(): OrderRecord[] {
-  if (!globalThis.__tideonOrders) {
-    globalThis.__tideonOrders = JSON.parse(JSON.stringify(SEED)) as OrderRecord[]
-  }
-  return globalThis.__tideonOrders
+  return _store
 }
 
 // ─── CRUD helpers ─────────────────────────────────────────────────────────────
@@ -43,7 +37,8 @@ export function getAllOrders(): OrderRecord[] {
 }
 
 export function getOrderByCode(code: string): OrderRecord | undefined {
-  return getStore().find((o) => o.orderCode === code.trim().toUpperCase())
+  const normalized = code.trim().toUpperCase()
+  return getStore().find((o) => o.orderCode.toUpperCase() === normalized)
 }
 
 export function getOrderById(id: string): OrderRecord | undefined {
@@ -56,7 +51,7 @@ export function createOrder(data: Omit<OrderRecord, 'id' | 'lastUpdated'>): Orde
     id: `order_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
     lastUpdated: new Date().toISOString(),
   }
-  getStore().push(order)
+  _store.push(order)
   return order
 }
 
@@ -64,16 +59,14 @@ export function updateOrder(
   id: string,
   updates: Partial<Omit<OrderRecord, 'id'>>,
 ): OrderRecord | null {
-  const store = getStore()
-  const idx = store.findIndex((o) => o.id === id)
+  const idx = _store.findIndex((o) => o.id === id)
   if (idx === -1) return null
-  store[idx] = { ...store[idx], ...updates, lastUpdated: new Date().toISOString() }
-  return store[idx]
+  _store[idx] = { ..._store[idx], ...updates, lastUpdated: new Date().toISOString() }
+  return _store[idx]
 }
 
-// ─── Code generator ───────────────────────────────────────────────────────────
 export function generateOrderCode(companyName: string): string {
-  const existing = getStore().map((o) => o.orderCode)
+  const existing = _store.map((o) => o.orderCode)
   const slug = companyName
     .toUpperCase()
     .replace(/[^A-Z0-9\s]/g, '')
