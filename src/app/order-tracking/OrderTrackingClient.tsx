@@ -107,7 +107,7 @@ export default function OrderTrackingClient() {
                       setInputError('')
                       setNotFound(false)
                     }}
-                    placeholder="TIDEON-PEAK-1024"
+                    placeholder="Tideon-Order-Number"
                     autoComplete="off"
                     spellCheck={false}
                     className={`bg-zinc-50 border rounded-xl px-4 py-3 text-[#1d1d1f] text-[14px] placeholder-zinc-400 font-mono tracking-wide focus:outline-none focus:bg-white transition-colors ${

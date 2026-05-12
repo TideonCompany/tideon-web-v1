@@ -319,7 +319,7 @@ export default function AdminOrderProgress() {
                       <Input
                         value={form.orderCode}
                         onChange={(v) => setForm(f => ({ ...f, orderCode: v.toUpperCase() }))}
-                        placeholder="TIDEON-PEAK-1024"
+                        placeholder="Tideon-Order-Number"
                         mono
                         className="flex-1"
                       />

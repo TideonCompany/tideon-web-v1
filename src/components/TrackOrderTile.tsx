@@ -104,7 +104,7 @@ export default function TrackOrderTile() {
                     setCode(e.target.value)
                     if (error) setError('')
                   }}
-                  placeholder="TIDEON-PEAK-1024"
+                  placeholder="Tideon-Order-Number"
                   autoComplete="off"
                   spellCheck={false}
                   className={`bg-white dark:bg-[#18181B] border rounded-xl px-4 py-3 text-zinc-800 dark:text-zinc-200 text-[14px] placeholder-zinc-400 dark:placeholder-zinc-600 focus:outline-none transition-colors ${
