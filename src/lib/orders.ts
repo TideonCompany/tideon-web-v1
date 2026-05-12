@@ -7,12 +7,12 @@ const SEED: OrderRecord[] = [
     customerName: 'RR Mech LLC',
     companyName: 'RR Mech LLC',
     orderCode: 'TIDEON-RR1004C',
-    currentStage: 'design',
+    currentStage: 'pre-production',
     orderDate: '2025-05-08',
-    estimatedCompletionDate: '2025-05-11',
+    estimatedCompletionDate: '2025-05-14',
     localDelivery: true,
     customerNote:
-      'Our design team is currently reviewing your requirements and specifications. Pre-production is estimated to be complete by May 11.',
+      'Your mockup is ready for review. Please check the design details and confirm approval so we can move into full production.',
     lastUpdated: '2025-05-08T09:00:00',
     stageDates: {
       ordered: { start: '2025-05-08' },

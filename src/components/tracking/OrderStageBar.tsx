@@ -6,7 +6,7 @@ import type { Stage, StageDate } from '@/types/order'
 const STAGES: { key: Stage; label: string; shortLabel: string }[] = [
   { key: 'ordered',        label: 'Ordered',        shortLabel: 'Ordered' },
   { key: 'design',         label: 'Design Team',    shortLabel: 'Design' },
-  { key: 'pre-production', label: 'Pre-Production', shortLabel: 'Pre-Prod' },
+  { key: 'pre-production', label: 'Mockup Approval', shortLabel: 'Mockup' },
   { key: 'production',     label: 'Production',     shortLabel: 'Prod.' },
   { key: 'delivery',       label: 'Delivery',       shortLabel: 'Delivery' },
 ]

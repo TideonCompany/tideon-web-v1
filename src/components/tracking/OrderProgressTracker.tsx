@@ -9,7 +9,7 @@ import OrderMediaPanel from './OrderMediaPanel'
 const STAGE_LABELS: Record<string, string> = {
   ordered:          'Order Received',
   design:           'Design Review',
-  'pre-production': 'Pre-Production',
+  'pre-production': 'Mockup Approval',
   production:       'In Production',
   delivery:         'Ready for Delivery',
 }
@@ -20,7 +20,7 @@ const STAGE_DESCRIPTIONS: Record<string, string> = {
   design:
     'Our design team is reviewing the details, measurements, and branding requirements.',
   'pre-production':
-    'We are preparing and testing prototypes before full production begins.',
+    'Your mockup is ready for review. We are awaiting approval before moving into full production.',
   production:
     'Your order is now being produced. This is usually the longest stage of the process.',
   delivery:
