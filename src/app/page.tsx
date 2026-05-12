@@ -8,6 +8,7 @@ import TrustedBy from '@/components/TrustedBy'
 import Services from '@/components/Services'
 import Materials from '@/components/Materials'
 import Process from '@/components/Process'
+import TrackOrderTile from '@/components/TrackOrderTile'
 import Portfolio from '@/components/Portfolio'
 import Reviews from '@/components/Reviews'
 import Pricing from '@/components/Pricing'
@@ -37,6 +38,7 @@ export default function Home() {
           <Services />
           <Materials />
           <Process />
+          <TrackOrderTile />
           <Portfolio />
           <Reviews />
           <Pricing />
