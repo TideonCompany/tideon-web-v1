@@ -20,7 +20,7 @@ const STAGE_DESCRIPTIONS: Record<string, string> = {
   design:
     'Our design team is reviewing the details, measurements, and branding requirements.',
   'pre-production':
-    'Your mockup is ready for review. We are awaiting approval before moving into full production.',
+    'Your product mockup is being prepared for review. Once approved, your order will move into full production.',
   production:
     'Your order is now being produced. This is usually the longest stage of the process.',
   delivery:
