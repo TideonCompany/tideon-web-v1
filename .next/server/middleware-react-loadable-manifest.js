@@ -1,1 +1,0 @@
-self.__REACT_LOADABLE_MANIFEST='{"app\\\\shop\\\\page.tsx -> canvas-confetti":{"id":965,"files":["static/chunks/965.450a4c0184d27200.js"]}}';
